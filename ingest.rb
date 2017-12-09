@@ -5,6 +5,7 @@ require 'rest-client'
 require 'logging'
 require 'mongo'
 require 'json'
+require 'time'
 require 'pry'
 
 # Variables
@@ -94,33 +95,20 @@ scheduler.every "10m" do
 
     record_id = mongo[:historical_value].insert_one({
       value: response['usd_value'],
-      time: nil,
+      time: Time.now.to_i,
       })
-
-    mongo[:historical_value].update_one(
-      {'_id' => record_id.inserted_id},
-      '$currentDate' => { 'time' => { '$type' => 'timestamp' }}
-    )
 
     record_id = mongo[:historical_nav].insert_one({
       value: response['nav_per_token'],
-      time: nil,
+      time: Time.now.to_i,
       })
 
-    mongo[:historical_value].update_one(
-      {'_id' => record_id.inserted_id},
-      '$currentDate' => { 'time' => { '$type' => 'timestamp' }}
-    )
 
     record_id = mongo[:historical_holdings].insert_one({
       holdings: response['holdings'],
-      time: nil,
+      time: Time.now.to_i,
       })
 
-    mongo[:historical_value].update_one(
-      {'_id' => record_id.inserted_id},
-      '$currentDate' => { 'time' => { '$type' => 'timestamp' }}
-    )
   else
     logger.error "Failed to retrieve status from crypto20.com"
   end
