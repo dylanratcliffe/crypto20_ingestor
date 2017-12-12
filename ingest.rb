@@ -31,9 +31,9 @@ mongo = Mongo::Client.new([ "#{mongo_hostname}:#{mongo_port}" ], :database => mo
 logger.debug "Testing mongoDB connection"
 logger.debug "Mongodb DB names: #{mongo.database_names}"
 
+# Create a document for each stat
 logger.info "Initialising data structures"
 
-# Create a document for each stat
 statistics = [
   'presale',
   'btc_received',
