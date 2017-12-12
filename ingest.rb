@@ -20,6 +20,10 @@ logger.debug "Logging initialised to STDOUT"
 # Set up scheduler
 scheduler = Rufus::Scheduler.new
 
+logger.stdout "Mongodb hostname: #{mongo_hostname}"
+logger.stdout "Mongodb port: #{mongo_port}"
+logger.stdout "Mongodb database: #{mongo_database}"
+
 # Create mongodb connection
 Mongo::Logger.logger.level = ::Logger::FATAL
 logger.info "Connecting to mongod: #{mongo_hostname}:#{mongo_port}; Database: #{mongo_database}"
