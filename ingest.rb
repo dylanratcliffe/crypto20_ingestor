@@ -6,7 +6,6 @@ require 'logging'
 require 'mongo'
 require 'json'
 require 'time'
-require 'pry'
 
 # Variables
 mongo_hostname = ENV['MONGO_HOSTNAME'] || '127.0.0.1'
