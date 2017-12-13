@@ -85,6 +85,15 @@ scheduler.every "3s" do
          { upsert: true }
       )
     end
+
+    # Purge all sold holdings
+    db_holdings_names  = mongo[:holdings].find.each.map { |h| h['name'] }
+    api_holdings_names = response['holdings'].map { |h| h['name']  }
+    removed_holdings = db_holdings_names - api_holdings_names
+    removed_holdings.each do |holding_name|
+      logger.info "Deleting removed holding: #{holding_name}"
+      mongo[:holdings].delete_one({'name'=> holding_name})
+    end
   else
     logger.error "Failed to retrieve status from crypto20.com"
   end
